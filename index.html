@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
     <meta name="theme-color" content="#0a3d2f">
+    <meta name="description" content="ENKOMOS-Power Tier A - Solar + Sodium Battery Calculator for homes, farms, and commercial use">
     <title>ENKOMOS-Power Tier A | Solar + Battery Calculator</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
@@ -40,6 +41,13 @@
             <span>Backup</span>
         </div>
 
+        <!-- Save/Load Progress Bar -->
+        <div class="save-bar">
+            <button type="button" id="saveProgressBtn" class="save-btn"><i class="fas fa-save"></i> Save Progress</button>
+            <button type="button" id="loadProgressBtn" class="load-btn"><i class="fas fa-upload"></i> Load Saved</button>
+            <span id="saveStatus" class="save-status"></span>
+        </div>
+
         <!-- Main Form - Step by Step -->
         <form id="enkomosForm">
             <!-- ========== STEP 1: USER TIER & PROFILE ========== -->
@@ -69,7 +77,7 @@
 
                 <div class="card">
                     <label class="section-label">Application Type <span class="optional">(select all that apply)</span></label>
-                    <div class="checkbox-group">
+                    <div class="checkbox-group" id="appTypeGroup">
                         <label><input type="checkbox" class="app-type" value="home-rooftop"> 🏠 Home rooftop</label>
                         <label><input type="checkbox" class="app-type" value="home-ground"> 🏡 Home ground-mount</label>
                         <label><input type="checkbox" class="app-type" value="commercial-rooftop"> 🏢 Commercial rooftop</label>
@@ -82,7 +90,7 @@
 
                 <div class="card">
                     <label class="section-label">Crop Type <span class="optional">(if agricultural)</span></label>
-                    <div class="checkbox-group">
+                    <div class="checkbox-group" id="cropTypeGroup">
                         <label><input type="checkbox" class="crop-type" value="vegetables"> 🥬 Vegetables</label>
                         <label><input type="checkbox" class="crop-type" value="fruits"> 🍎 Fruits</label>
                         <label><input type="checkbox" class="crop-type" value="herbs"> 🌿 Herbs/medicinal</label>
@@ -93,12 +101,15 @@
 
                 <div class="card">
                     <label class="section-label">Region Type</label>
-                    <div class="checkbox-group">
+                    <div class="checkbox-group" id="regionTypeGroup">
                         <label><input type="checkbox" class="region-type" value="home-grower"> 🌱 Home grower (backyard)</label>
                         <label><input type="checkbox" class="region-type" value="small-farm"> 🚜 Small farm (1-5 acres)</label>
                         <label><input type="checkbox" class="region-type" value="medium-farm"> 🌾 Medium farm (5-20 acres)</label>
+                        <label><input type="checkbox" class="region-type" value="large-farm"> 🏭 Large farm (20+ acres)</label>
                         <label><input type="checkbox" class="region-type" value="village-cluster"> 🏘️ Village cluster</label>
                         <label><input type="checkbox" class="region-type" value="remote-tower"> 📶 Remote tower/telecom</label>
+                        <label><input type="checkbox" class="region-type" value="eco-resort"> 🌴 Eco-resort / tourism</label>
+                        <label><input type="checkbox" class="region-type" value="school"> 🏫 School / health center</label>
                     </div>
                 </div>
 
@@ -183,7 +194,7 @@
 
                 <div class="card">
                     <label class="section-label">Emergency Backup Priority</label>
-                    <div class="toggle-group">
+                    <div class="toggle-group" id="backupPriorityGroup">
                         <label><input type="radio" name="backupPriority" value="critical" checked> 🔋 Critical loads only (fridge, lights, phone)</label>
                         <label><input type="radio" name="backupPriority" value="full"> 🏠 Full home backup</label>
                         <label><input type="radio" name="backupPriority" value="offgrid"> 🌍 24/7 off-grid (no grid)</label>
@@ -196,7 +207,7 @@
                 </div>
             </div>
 
-            <!-- ========== STEP 3: COMPONENTS (ENKOMOS vs Separate) ========== -->
+            <!-- ========== STEP 3: COMPONENTS ========== -->
             <div class="form-step" id="step3">
                 <h2><i class="fas fa-microchip"></i> Components</h2>
                 <p class="step-hint">Check each component - choose ENKOMOS kit or purchase separately</p>
@@ -272,9 +283,10 @@
                 <div class="card">
                     <h3>🔮 Future Development (Pre-install)</h3>
                     <div class="checkbox-group">
-                        <label><input type="checkbox" id="futureHydrogen"> 💧 Hydrogen ready (electrolyzer prep)</label>
-                        <label><input type="checkbox" id="futureHydro"> 💦 Hydro input interface</label>
-                        <label><input type="checkbox" id="futureEV"> 🔌 EV charging outlet</label>
+                        <label><input type="checkbox" id="futureHydrogen"> 💧 Hydrogen ready (electrolyzer prep) - $120</label>
+                        <label><input type="checkbox" id="futureHydro"> 💦 Hydro input interface - $90</label>
+                        <label><input type="checkbox" id="futureEV"> 🔌 EV charging outlet - $80</label>
+                        <label><input type="checkbox" id="futureColdStorage"> ❄️ Cold storage controller - $150</label>
                     </div>
                 </div>
 
@@ -284,7 +296,7 @@
                 </div>
             </div>
 
-            <!-- ========== STEP 4: HOME BACKUP (Basic vs Pro) ========== -->
+            <!-- ========== STEP 4: HOME BACKUP ========== -->
             <div class="form-step" id="step4">
                 <h2><i class="fas fa-home"></i> Home Backup</h2>
 
@@ -352,13 +364,13 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>Refrigerator:</label>
+                        <label>Refrigerator (ENKOMOS brand only):</label>
                         <select id="proFridge">
                             <option value="0">None</option>
-                            <option value="enkomos-chill-150">ENKOMOS-Chill 150 (150L)</option>
-                            <option value="enkomos-chill-200" selected>ENKOMOS-Chill 200 (200L)</option>
-                            <option value="enkomos-chill-250">ENKOMOS-Chill 250 (250L)</option>
-                            <option value="enkomos-chill-300">ENKOMOS-Chill 300 (300L)</option>
+                            <option value="chill150">🍃 ENKOMOS-Chill 150 (150L) - $180</option>
+                            <option value="chill200" selected>🍃 ENKOMOS-Chill 200 (200L) - $260</option>
+                            <option value="chill250">🍃 ENKOMOS-Chill 250 (250L) - $320</option>
+                            <option value="chill300">🍃 ENKOMOS-Chill 300 (300L) - $380</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -377,7 +389,7 @@
 
                 <div class="card">
                     <label class="section-label">Development Roadmap (Future upgrades)</label>
-                    <div class="roadmap-visual">
+                    <div class="roadmap-visual" id="roadmapVisual">
                         <div class="roadmap-item">Year 0<br><small>Initial system</small></div>
                         <div class="roadmap-arrow">→</div>
                         <div class="roadmap-item">Year 2<br><small>+ Wind</small></div>
@@ -393,7 +405,7 @@
             </div>
         </form>
 
-        <!-- ========== REPORT SECTION (hidden initially) ========== -->
+        <!-- ========== REPORT SECTION ========== -->
         <div id="reportSection" style="display: none;">
             <div class="report-header">
                 <h2><i class="fas fa-file-alt"></i> Your ENKOMOS-Power Report</h2>
@@ -402,22 +414,19 @@
             <div id="reportContent"></div>
             <div class="report-actions">
                 <button id="downloadReportBtn"><i class="fas fa-download"></i> Download Report (TXT)</button>
+                <button id="shareReportBtn"><i class="fas fa-share-alt"></i> Share Report</button>
                 <button id="newCalculationBtn"><i class="fas fa-redo"></i> New Calculation</button>
             </div>
             <div class="qr-placeholder" id="qrCodeArea">
-                <i class="fas fa-qrcode"></i> QR Code: Share this report with ENKOMOS distributor
+                <i class="fas fa-qrcode"></i> Scan QR: Share this report with ENKOMOS distributor
+                <div id="qrCodeDynamic"></div>
             </div>
-        </div>
-
-        <!-- Dead Button / Fallback Message -->
-        <div id="deadButtonWarning" style="display: none;" class="dead-warning">
-            <i class="fas fa-exclamation-triangle"></i>
-            <span>This feature requires ENKOMOS website connection. Please use desktop version for full SQL/database features.</span>
         </div>
 
         <footer>
             <p>ENKOMOS-Power Tier A | Software pricing determined by ENKOMOS HQ</p>
-            <p class="version">v1.0 - Mobile Ready | Est. 2026</p>
+            <p class="version">v1.1 - Mobile Ready | Est. 2026</p>
+            <p class="copyright">© ENKOMOS Head Office - All Rights Reserved</p>
         </footer>
     </div>
 
