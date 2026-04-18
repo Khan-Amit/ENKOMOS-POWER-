@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
+    <meta name="theme-color" content="#0a3d2f">
+    <title>ENKOMOS-Power Tier A | Solar + Battery Calculator</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header>
+            <div class="logo">
+                <i class="fas fa-solar-panel"></i>
+                <span>ENKOMOS<span class="power">-Power</span></span>
+                <span class="tier">Tier A</span>
+            </div>
+            <div class="online-status" id="onlineStatus">
+                <i class="fas fa-circle"></i> Online
+            </div>
+        </header>
+
+        <!-- Progress Indicator -->
+        <div class="progress-bar">
+            <div class="progress-step active" id="step1Indicator">1</div>
+            <div class="progress-line"></div>
+            <div class="progress-step" id="step2Indicator">2</div>
+            <div class="progress-line"></div>
+            <div class="progress-step" id="step3Indicator">3</div>
+            <div class="progress-line"></div>
+            <div class="progress-step" id="step4Indicator">4</div>
+        </div>
+        <div class="progress-labels">
+            <span>Your Profile</span>
+            <span>System Size</span>
+            <span>Components</span>
+            <span>Backup</span>
+        </div>
+
+        <!-- Main Form - Step by Step -->
+        <form id="enkomosForm">
+            <!-- ========== STEP 1: USER TIER & PROFILE ========== -->
+            <div class="form-step active" id="step1">
+                <h2><i class="fas fa-user-circle"></i> Your Profile</h2>
+                
+                <div class="card">
+                    <label class="section-label">Membership Tier</label>
+                    <div class="tier-selector">
+                        <label class="tier-option">
+                            <input type="radio" name="tier" value="GM" checked>
+                            <span><i class="fas fa-user"></i> General Member</span>
+                            <small>Single household</small>
+                        </label>
+                        <label class="tier-option">
+                            <input type="radio" name="tier" value="TN">
+                            <span><i class="fas fa-users"></i> Team / Co-op</span>
+                            <small>NGO or group (3+ units)</small>
+                        </label>
+                        <label class="tier-option">
+                            <input type="radio" name="tier" value="EN">
+                            <span><i class="fas fa-building"></i> Enterprise</span>
+                            <small>Commercial 50kW+</small>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <label class="section-label">Application Type <span class="optional">(select all that apply)</span></label>
+                    <div class="checkbox-group">
+                        <label><input type="checkbox" class="app-type" value="home-rooftop"> 🏠 Home rooftop</label>
+                        <label><input type="checkbox" class="app-type" value="home-ground"> 🏡 Home ground-mount</label>
+                        <label><input type="checkbox" class="app-type" value="commercial-rooftop"> 🏢 Commercial rooftop</label>
+                        <label><input type="checkbox" class="app-type" value="agricultural"> 🌾 Agricultural land</label>
+                        <label><input type="checkbox" class="app-type" value="tower"> 📡 Tower / telecom</label>
+                        <label><input type="checkbox" class="app-type" value="greenhouse"> 🌱 Shaded greenhouse</label>
+                        <label><input type="checkbox" class="app-type" value="outdoor"> 🌞 Outdoor open field</label>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <label class="section-label">Crop Type <span class="optional">(if agricultural)</span></label>
+                    <div class="checkbox-group">
+                        <label><input type="checkbox" class="crop-type" value="vegetables"> 🥬 Vegetables</label>
+                        <label><input type="checkbox" class="crop-type" value="fruits"> 🍎 Fruits</label>
+                        <label><input type="checkbox" class="crop-type" value="herbs"> 🌿 Herbs/medicinal</label>
+                        <label><input type="checkbox" class="crop-type" value="livestock"> 🐓 Livestock</label>
+                        <label><input type="checkbox" class="crop-type" value="aquaponics"> 🐟 Aquaponics</label>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <label class="section-label">Region Type</label>
+                    <div class="checkbox-group">
+                        <label><input type="checkbox" class="region-type" value="home-grower"> 🌱 Home grower (backyard)</label>
+                        <label><input type="checkbox" class="region-type" value="small-farm"> 🚜 Small farm (1-5 acres)</label>
+                        <label><input type="checkbox" class="region-type" value="medium-farm"> 🌾 Medium farm (5-20 acres)</label>
+                        <label><input type="checkbox" class="region-type" value="village-cluster"> 🏘️ Village cluster</label>
+                        <label><input type="checkbox" class="region-type" value="remote-tower"> 📶 Remote tower/telecom</label>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <label class="section-label">Sun Exposure</label>
+                    <div class="slider-container">
+                        <input type="range" id="sunExposure" min="0" max="100" value="70">
+                        <div class="slider-labels">
+                            <span>Poor 🌥️</span>
+                            <span>Average ☁️</span>
+                            <span>Excellent ☀️</span>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="button" class="btn-next" data-next="2">Continue →</button>
+            </div>
+
+            <!-- ========== STEP 2: SYSTEM SIZES ========== -->
+            <div class="form-step" id="step2">
+                <h2><i class="fas fa-charging-station"></i> System Sizes</h2>
+
+                <div class="card">
+                    <label class="section-label">Solar PV Size</label>
+                    <div class="size-selector">
+                        <select id="solarSize" class="size-dropdown">
+                            <option value="0">None</option>
+                            <option value="1">1 kW</option>
+                            <option value="2">2 kW</option>
+                            <option value="3">3 kW</option>
+                            <option value="5" selected>5 kW (Recommended)</option>
+                            <option value="7">7 kW</option>
+                            <option value="10">10 kW</option>
+                            <option value="15">15 kW</option>
+                            <option value="20">20 kW</option>
+                            <option value="30">30 kW</option>
+                            <option value="50">50 kW</option>
+                            <option value="100">100 kW</option>
+                        </select>
+                        <input type="number" id="solarCustom" placeholder="Custom kW" min="0" step="1">
+                    </div>
+                </div>
+
+                <div class="card">
+                    <label class="section-label">Sodium Battery Storage</label>
+                    <div class="size-selector">
+                        <select id="batterySize" class="size-dropdown">
+                            <option value="0">None</option>
+                            <option value="1">1 kWh</option>
+                            <option value="2">2 kWh</option>
+                            <option value="3">3 kWh</option>
+                            <option value="5" selected>5 kWh (Recommended)</option>
+                            <option value="7">7 kWh</option>
+                            <option value="10">10 kWh</option>
+                            <option value="15">15 kWh</option>
+                            <option value="20">20 kWh</option>
+                            <option value="30">30 kWh</option>
+                            <option value="50">50 kWh</option>
+                            <option value="100">100 kWh</option>
+                        </select>
+                        <input type="number" id="batteryCustom" placeholder="Custom kWh" min="0" step="1">
+                    </div>
+                </div>
+
+                <div class="card">
+                    <label class="section-label">Wind Turbine <span class="optional">(optional backup)</span></label>
+                    <div class="size-selector">
+                        <select id="windSize" class="size-dropdown">
+                            <option value="0">None</option>
+                            <option value="0.3">300W</option>
+                            <option value="0.5">500W</option>
+                            <option value="1">1 kW</option>
+                            <option value="2">2 kW</option>
+                            <option value="3">3 kW</option>
+                            <option value="5">5 kW</option>
+                            <option value="10">10 kW</option>
+                        </select>
+                        <input type="number" id="windCustom" placeholder="Custom kW" min="0" step="0.1">
+                    </div>
+                    <small class="info-text"><i class="fas fa-info-circle"></i> Requires average wind speed ≥ 3m/s</small>
+                </div>
+
+                <div class="card">
+                    <label class="section-label">Emergency Backup Priority</label>
+                    <div class="toggle-group">
+                        <label><input type="radio" name="backupPriority" value="critical" checked> 🔋 Critical loads only (fridge, lights, phone)</label>
+                        <label><input type="radio" name="backupPriority" value="full"> 🏠 Full home backup</label>
+                        <label><input type="radio" name="backupPriority" value="offgrid"> 🌍 24/7 off-grid (no grid)</label>
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <button type="button" class="btn-prev" data-prev="1">← Back</button>
+                    <button type="button" class="btn-next" data-next="3">Continue →</button>
+                </div>
+            </div>
+
+            <!-- ========== STEP 3: COMPONENTS (ENKOMOS vs Separate) ========== -->
+            <div class="form-step" id="step3">
+                <h2><i class="fas fa-microchip"></i> Components</h2>
+                <p class="step-hint">Check each component - choose ENKOMOS kit or purchase separately</p>
+
+                <div class="card">
+                    <h3>☀️ Solar PV</h3>
+                    <div class="component-row">
+                        <span>Solar panels (mono)</span>
+                        <div class="component-choice">
+                            <label><input type="radio" name="solar_panels" value="enkomos" checked> ENKOMOS</label>
+                            <label><input type="radio" name="solar_panels" value="separate"> Separate</label>
+                            <label><input type="radio" name="solar_panels" value="none"> None</label>
+                        </div>
+                    </div>
+                    <div class="component-row">
+                        <span>Mounting structure</span>
+                        <div class="component-choice">
+                            <label><input type="radio" name="mounting" value="enkomos" checked> ENKOMOS</label>
+                            <label><input type="radio" name="mounting" value="separate"> Separate</label>
+                            <label><input type="radio" name="mounting" value="none"> None</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>🔋 Battery Storage (Sodium-ion)</h3>
+                    <div class="component-row">
+                        <span>Battery cells + BMS</span>
+                        <div class="component-choice">
+                            <label><input type="radio" name="battery" value="enkomos" checked> ENKOMOS</label>
+                            <label><input type="radio" name="battery" value="separate"> Separate</label>
+                            <label><input type="radio" name="battery" value="none"> None</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>⚡ Inverter & Power</h3>
+                    <div class="component-row">
+                        <span>Hybrid inverter</span>
+                        <div class="component-choice">
+                            <label><input type="radio" name="inverter" value="enkomos" checked> ENKOMOS</label>
+                            <label><input type="radio" name="inverter" value="separate"> Separate</label>
+                            <label><input type="radio" name="inverter" value="none"> None</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>💨 Wind (Optional)</h3>
+                    <div class="component-row">
+                        <span>Wind turbine + controller</span>
+                        <div class="component-choice">
+                            <label><input type="radio" name="wind_kit" value="enkomos"> ENKOMOS</label>
+                            <label><input type="radio" name="wind_kit" value="separate"> Separate</label>
+                            <label><input type="radio" name="wind_kit" value="none" checked> None</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>📡 Balance of System</h3>
+                    <div class="component-row">
+                        <span>Cables, breakers, grounding</span>
+                        <div class="component-choice">
+                            <label><input type="radio" name="bos" value="enkomos" checked> ENKOMOS</label>
+                            <label><input type="radio" name="bos" value="separate"> Separate</label>
+                            <label><input type="radio" name="bos" value="none"> None</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>🔮 Future Development (Pre-install)</h3>
+                    <div class="checkbox-group">
+                        <label><input type="checkbox" id="futureHydrogen"> 💧 Hydrogen ready (electrolyzer prep)</label>
+                        <label><input type="checkbox" id="futureHydro"> 💦 Hydro input interface</label>
+                        <label><input type="checkbox" id="futureEV"> 🔌 EV charging outlet</label>
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <button type="button" class="btn-prev" data-prev="2">← Back</button>
+                    <button type="button" class="btn-next" data-next="4">Continue →</button>
+                </div>
+            </div>
+
+            <!-- ========== STEP 4: HOME BACKUP (Basic vs Pro) ========== -->
+            <div class="form-step" id="step4">
+                <h2><i class="fas fa-home"></i> Home Backup</h2>
+
+                <div class="card">
+                    <label class="section-label">Do you want home backup?</label>
+                    <div class="backup-selector">
+                        <label class="backup-option">
+                            <input type="radio" name="backupTier" value="none" checked>
+                            <span><i class="fas fa-times-circle"></i> No Backup</span>
+                            <small>Main system only</small>
+                        </label>
+                        <label class="backup-option">
+                            <input type="radio" name="backupTier" value="basic">
+                            <span><i class="fas fa-lightbulb"></i> Basic Backup</span>
+                            <small>Lights only (4h, manual)</small>
+                        </label>
+                        <label class="backup-option">
+                            <input type="radio" name="backupTier" value="pro">
+                            <span><i class="fas fa-star-of-life"></i> Pro Backup</span>
+                            <small>Lights + Fan + PC + Fridge (auto)</small>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Basic Backup Options -->
+                <div class="card backup-details" id="basicOptions" style="display: none;">
+                    <h3>Basic Backup Details</h3>
+                    <div class="form-group">
+                        <label>Number of lights (max 2):</label>
+                        <select id="basicLights">
+                            <option value="1">1 light</option>
+                            <option value="2" selected>2 lights</option>
+                        </select>
+                    </div>
+                    <div class="info-box">
+                        <i class="fas fa-info-circle"></i> Basic backup includes: 2 LED lights, manual transfer switch, 4-hour backup. No fan/computer/fridge.
+                    </div>
+                </div>
+
+                <!-- Pro Backup Options -->
+                <div class="card backup-details" id="proOptions" style="display: none;">
+                    <h3>Pro Backup Details</h3>
+                    <div class="form-group">
+                        <label>Fans (1-2):</label>
+                        <select id="proFans">
+                            <option value="0">None</option>
+                            <option value="1">1 fan</option>
+                            <option value="2" selected>2 fans</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Lights (2-4):</label>
+                        <select id="proLights">
+                            <option value="2">2 lights</option>
+                            <option value="3" selected>3 lights</option>
+                            <option value="4">4 lights</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Computers (1-2):</label>
+                        <select id="proComputers">
+                            <option value="0">None</option>
+                            <option value="1" selected>1 computer</option>
+                            <option value="2">2 computers</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Refrigerator:</label>
+                        <select id="proFridge">
+                            <option value="0">None</option>
+                            <option value="enkomos-chill-150">ENKOMOS-Chill 150 (150L)</option>
+                            <option value="enkomos-chill-200" selected>ENKOMOS-Chill 200 (200L)</option>
+                            <option value="enkomos-chill-250">ENKOMOS-Chill 250 (250L)</option>
+                            <option value="enkomos-chill-300">ENKOMOS-Chill 300 (300L)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Backup hours needed:</label>
+                        <select id="proHours">
+                            <option value="4">4 hours</option>
+                            <option value="8" selected>8 hours</option>
+                            <option value="12">12 hours</option>
+                            <option value="24">24 hours</option>
+                        </select>
+                    </div>
+                    <div class="info-box">
+                        <i class="fas fa-star-of-life"></i> Pro backup includes: Automatic transfer switch, digital monitoring, mobile notifications, surge protection. Professional installation recommended.
+                    </div>
+                </div>
+
+                <div class="card">
+                    <label class="section-label">Development Roadmap (Future upgrades)</label>
+                    <div class="roadmap-visual">
+                        <div class="roadmap-item">Year 0<br><small>Initial system</small></div>
+                        <div class="roadmap-arrow">→</div>
+                        <div class="roadmap-item">Year 2<br><small>+ Wind</small></div>
+                        <div class="roadmap-arrow">→</div>
+                        <div class="roadmap-item">Year 4<br><small>+ Hydrogen</small></div>
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <button type="button" class="btn-prev" data-prev="3">← Back</button>
+                    <button type="button" id="calculateBtn">Calculate & Get Report →</button>
+                </div>
+            </div>
+        </form>
+
+        <!-- ========== REPORT SECTION (hidden initially) ========== -->
+        <div id="reportSection" style="display: none;">
+            <div class="report-header">
+                <h2><i class="fas fa-file-alt"></i> Your ENKOMOS-Power Report</h2>
+                <div class="report-badge" id="reportBadge">CONFIRMED</div>
+            </div>
+            <div id="reportContent"></div>
+            <div class="report-actions">
+                <button id="downloadReportBtn"><i class="fas fa-download"></i> Download Report (TXT)</button>
+                <button id="newCalculationBtn"><i class="fas fa-redo"></i> New Calculation</button>
+            </div>
+            <div class="qr-placeholder" id="qrCodeArea">
+                <i class="fas fa-qrcode"></i> QR Code: Share this report with ENKOMOS distributor
+            </div>
+        </div>
+
+        <!-- Dead Button / Fallback Message -->
+        <div id="deadButtonWarning" style="display: none;" class="dead-warning">
+            <i class="fas fa-exclamation-triangle"></i>
+            <span>This feature requires ENKOMOS website connection. Please use desktop version for full SQL/database features.</span>
+        </div>
+
+        <footer>
+            <p>ENKOMOS-Power Tier A | Software pricing determined by ENKOMOS HQ</p>
+            <p class="version">v1.0 - Mobile Ready | Est. 2026</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
