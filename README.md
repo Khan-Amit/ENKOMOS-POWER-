@@ -45,3 +45,78 @@ This is a **mobile-ready web application** that helps users calculate the cost a
 *Visit [ENKOMOS Official Website] for live demo (coming soon)*
 
 ## 📂 File Structure
+
+## 🌍 Future Development Options
+
+| Add-on | Cost (ENKOMOS) | Purpose |
+|--------|----------------|---------|
+| Hydrogen ready | $120 | Electrolyzer prep kit |
+| Hydro interface | $90 | Small hydro input |
+| EV charging outlet | $80 | Type 2 charger prep |
+
+## 🔧 Technologies Used
+
+- HTML5
+- CSS3 (Flexbox, Grid, Animations)
+- JavaScript (Vanilla, no frameworks)
+- Font Awesome 6 Icons
+- Google Fonts (Inter)
+
+## 📱 Mobile Compatibility
+
+| Feature | Support |
+|---------|---------|
+| iOS Safari | ✅ Full |
+| Android Chrome | ✅ Full |
+| Offline mode | ✅ Yes |
+| Touch friendly | ✅ Yes |
+| Responsive design | ✅ Yes |
+
+## ⚠️ Important Notes
+
+1. **Dead Button Notice**: Some advanced features (SQL database, server sync) require the full ENKOMOS website. This mobile version uses local calculations.
+
+2. **Price Updates**: ENKOMOS HQ controls all pricing. This calculator uses base estimates.
+
+3. **Refrigerator Compatibility**: For Pro Backup, only ENKOMOS-Chill series refrigerators are warranty-covered.
+
+4. **AC / High-Power Appliances**: Not supported in this calculator. Contact ENKOMOS HQ for custom quotes.
+
+## 🔄 Version History
+
+| Version | Date | Changes |
+|---------|------|---------|
+| 1.0 | 2026-04-18 | Initial mobile release - Basic + Pro backup, all 10 suggestions implemented |
+
+## 📞 Contact & Support
+
+- **ENKOMOS Head Office**: [Website URL]
+- **Distributor Directory**: directory.enkomos.com
+- **Technical Support**: support@enkomos.com (placeholder)
+
+## 📄 License
+
+Proprietary - ENKOMOS HQ. All rights reserved.
+
+This software is provided for ENKOMOS customer use only. Redistribution or modification without permission is prohibited.
+
+---
+
+## 🙏 Acknowledgements
+
+- ENKOMOS engineering team for component specifications
+- Sodium-ion battery manufacturers (CATL, Hina Battery)
+- Solar panel vendors (Jinko, LONGi, Trina)
+
+---
+
+## ⭐ Quick Start
+
+```bash
+# Download all files
+wget https://raw.githubusercontent.com/enkomos/calculator/main/index.html
+wget https://raw.githubusercontent.com/enkomos/calculator/main/style.css
+wget https://raw.githubusercontent.com/enkomos/calculator/main/script.js
+
+# Open in browser
+open index.html
