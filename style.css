@@ -126,6 +126,47 @@ header {
     background: white;
 }
 
+/* Save/Load Bar */
+.save-bar {
+    background: white;
+    padding: 12px 20px;
+    display: flex;
+    gap: 12px;
+    border-bottom: 1px solid #e0e5dc;
+    flex-wrap: wrap;
+}
+
+.save-btn, .load-btn {
+    padding: 8px 16px;
+    border-radius: 30px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.save-btn {
+    background: #0d5c46;
+    color: white;
+}
+
+.load-btn {
+    background: #e0e5dc;
+    color: #1a2a2a;
+}
+
+.save-status {
+    font-size: 0.7rem;
+    color: #0d5c46;
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+}
+
 /* Form Steps */
 .form-step {
     display: none;
@@ -465,7 +506,7 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 /* Buttons */
-.btn-next, .btn-prev, #calculateBtn, #downloadReportBtn, #newCalculationBtn {
+.btn-next, .btn-prev, #calculateBtn, #downloadReportBtn, #newCalculationBtn, #shareReportBtn {
     padding: 14px 24px;
     border: none;
     border-radius: 40px;
@@ -511,6 +552,11 @@ input[type="range"]::-webkit-slider-thumb {
 
 #downloadReportBtn {
     background: #1a2a2a;
+    color: white;
+}
+
+#shareReportBtn {
+    background: #3b82f6;
     color: white;
 }
 
@@ -568,6 +614,7 @@ input[type="range"]::-webkit-slider-thumb {
     display: flex;
     gap: 12px;
     margin-bottom: 16px;
+    flex-wrap: wrap;
 }
 
 .qr-placeholder {
@@ -581,24 +628,11 @@ input[type="range"]::-webkit-slider-thumb {
     align-items: center;
     justify-content: center;
     gap: 8px;
+    flex-direction: column;
 }
 
 .qr-placeholder i {
     font-size: 1.2rem;
-}
-
-/* Dead Button Warning */
-.dead-warning {
-    background: #fef3c7;
-    border-left: 4px solid #f59e0b;
-    padding: 16px;
-    margin: 16px;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    font-size: 0.8rem;
-    color: #92400e;
 }
 
 /* Footer */
@@ -613,6 +647,11 @@ footer {
 footer .version {
     margin-top: 6px;
     font-size: 0.6rem;
+}
+
+footer .copyright {
+    margin-top: 8px;
+    font-size: 0.55rem;
 }
 
 /* Utility Classes */
@@ -653,9 +692,13 @@ footer .version {
     .button-group {
         flex-direction: column;
     }
+    
+    .report-actions {
+        flex-direction: column;
+    }
 }
 
-/* Print styles for report */
+/* Print styles */
 @media print {
     body {
         background: white;
@@ -665,7 +708,7 @@ footer .version {
         max-width: 100%;
         border-radius: 0;
     }
-    .progress-bar, .progress-labels, .button-group, .report-actions, footer, header, .qr-placeholder {
+    .progress-bar, .progress-labels, .button-group, .report-actions, footer, header, .qr-placeholder, .save-bar {
         display: none;
     }
     #reportSection {
